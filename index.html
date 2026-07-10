@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MR VEQTOR — Systems, CCTV, Websites & Apps in Tarlac City</title>
+<meta name="description" content="MR VEQTOR builds business systems, installs CCTV, and ships websites & apps for businesses across Tarlac and nearby areas. Built right. Installed clean. Verified.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ---- VEQTOR brand tokens : Black / Paper / Signal Red ---- */
+    --ink: #0A0A0B;
+    --ink-2: #131316;
+    --paper: #F4F3EF;
+    --bg: #F4F3EF;
+    --bg-soft: #ECEAE4;
+    --card: #FFFFFF;
+    --line: #DDDAD1;
+    --text: #14140F;
+    --text-dim: #55544C;
+    --text-faint: #9B988C;
+
+    --dark-panel: linear-gradient(160deg, #16161A, #0A0A0B);
+    --hero-card-bg: var(--dark-panel);
+    --on-dark: #F4F3EF;
+    --on-dark-dim: #8C8B87;
+    --line-on-dark: rgba(244,243,239,0.12);
+
+    --red: #D91E36;
+    --red-deep: #A5162A;
+    --red-glow: rgba(217,30,54,0.28);
+
+    --header-bg: rgba(244,243,239,0.78);
+    --header-bg-scrolled: rgba(244,243,239,0.95);
+    --header-line: rgba(20,20,15,0.08);
+
+    --card-hover-shadow: rgba(10,10,11,0.14);
+
+    --radius: 2px;
+    --gap: 16px;
+    --pad-card: 26px;
+    --pad-section: 88px;
+
+    --ease: cubic-bezier(0.16,1,0.3,1);
+    --ease-snap: cubic-bezier(0.34,1.56,0.64,1);
+    --display: 'Big Shoulders Display', 'Inter', sans-serif;
+    --font: 'Inter', -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  [data-theme="dark"]{
+    --bg: #0A0A0B;
+    --bg-soft: #101012;
+    --card: #16161A;
+    --line: #27272A;
+    --text: #F4F3EF;
+    --text-dim: #A5A4A0;
+    --text-faint: #66655F;
+
+    --header-bg: rgba(10,10,11,0.7);
+    --header-bg-scrolled: rgba(10,10,11,0.94);
+    --header-line: rgba(244,243,239,0.08);
+
+    --card-hover-shadow: rgba(0,0,0,0.5);
+    --hero-card-bg: linear-gradient(160deg, #1c1c20, #0A0A0B);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
+  }
+
+  body{
+    background-color:var(--bg);
+    color:var(--text);
+    font-family:var(--font);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    position:relative;
+  }
+  /* ============ BRAND BACKGROUND (MR VEQTOR banner artwork, fixed watermark) ============ */
+  body::before{
+    content:'';
+    position:fixed; inset:0; z-index:-2;
+    background-image:url('assets/mr-veqtor-bg.jpg');
+    background-repeat:no-repeat;
+    background-position:center center;
+    background-size:cover;
+    opacity:0.16;
+    filter:saturate(0.85);
+    pointer-events:none;
+  }
+  [data-theme="dark"] body::before{ opacity:0.1; filter:saturate(0.6) invert(0.06); }
+  body::after{
+    content:'';
+    position:fixed; inset:0; z-index:-1;
+    background:var(--bg);
+    opacity:0.72;
+    pointer-events:none;
+    transition:background .3s ease;
+  }
+  [data-theme="dark"] body::after{ opacity:0.8; }
+  @media (max-width: 760px){
+    body::before{ background-attachment:scroll; }
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; }
+  img,svg{ display:block; max-width:100%; }
+  section{ position:relative; }
+
+  .wrap{ max-width:1200px; margin:0 auto; padding:0 20px; }
+  ::selection{ background:var(--red); color:#fff; }
+
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; font-weight:600; letter-spacing:3px; text-transform:uppercase;
+    color:var(--red); display:flex; align-items:center; gap:10px; line-height:1.2;
+  }
+  .eyebrow::before{ content:''; width:16px; height:1px; background:var(--red); }
+
+  h1,h2,h3{ font-family:var(--display); letter-spacing:0.2px; color:var(--text); font-weight:700; text-transform:uppercase; }
+
+  /* ============ SCROLL PROGRESS ============ */
+  .scroll-progress{
+    position:fixed; top:0; left:0; height:3px; width:0%;
+    background:var(--red); z-index:300;
+    transition:width .1s linear;
+  }
+
+  /* ============ BUTTONS ============ */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    font-family:var(--font); font-weight:600; font-size:14px;
+    padding:14px 26px; border-radius:var(--radius); border:1px solid transparent;
+    cursor:pointer; white-space:nowrap;
+    transition:transform .3s var(--ease), box-shadow .3s var(--ease), background .2s ease, border-color .2s ease, color .2s ease;
+  }
+  .btn:active{ transform:scale(0.96); transition-duration:.12s; }
+  .btn-primary{ background:var(--red); color:#fff; }
+  .btn-primary:hover{ background:var(--red-deep); box-shadow:0 10px 28px var(--red-glow); transform:translateY(-2px); }
+  .btn-ghost{ background:transparent; border-color:var(--line); color:var(--text); }
+  .btn-ghost:hover{ border-color:var(--red); color:var(--red); transform:translateY(-2px); }
+  .btn-dark{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .btn-dark:hover{ background:#000; transform:translateY(-2px); }
+
+  /* ============ NAV ============ */
+  header{
+    position:sticky; top:0; z-index:200;
+    background:var(--header-bg);
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--header-line);
+    transition:background .3s ease, box-shadow .3s ease, border-color .3s ease;
+  }
+  header.scrolled{
+    background:var(--header-bg-scrolled);
+    box-shadow:0 12px 30px rgba(0,0,0,0.12);
+  }
+  .nav{ display:flex; align-items:center; justify-content:space-between; padding:14px 0; }
+  .brand{ display:flex; align-items:center; gap:11px; }
+  .brand-mark{ height:34px; width:auto; object-fit:contain; flex-shrink:0; border-radius:4px; }
+  footer .brand-mark{ height:30px; }
+  .brand-mark-live{
+    animation:brandBreathe 5s ease-in-out infinite;
+    transform-origin:center;
+    will-change:transform, filter;
+  }
+  .brand:hover .brand-mark-live,
+  .brand:focus-visible .brand-mark-live{
+    animation-play-state:paused;
+    transform:scale(1.08) rotate(-2deg);
+    filter:drop-shadow(0 4px 14px var(--red-glow));
+    transition:transform .35s var(--ease-snap), filter .35s ease;
+  }
+  @keyframes brandBreathe{
+    0%,100%{ transform:scale(1) rotate(0deg); filter:drop-shadow(0 0 0 rgba(217,30,54,0)); }
+    50%{ transform:scale(1.045) rotate(0.6deg); filter:drop-shadow(0 3px 10px var(--red-glow)); }
+  }
+  .brand-word{ font-family:var(--display); font-weight:700; font-size:20px; letter-spacing:0.5px; text-transform:uppercase; color:var(--text); line-height:1; }
+  .brand-word .rk{ color:var(--text); }
+  .brand-tag{ font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:4px; color:var(--red); text-transform:uppercase; margin-top:3px; }
+
+  .nav-links{ display:none; align-items:center; gap:32px; }
+  .nav-links a{ font-size:13.5px; font-weight:500; letter-spacing:0.3px; color:var(--text-dim); transition:color .15s ease; position:relative; text-transform:uppercase; }
+  .nav-links a::after{ content:''; position:absolute; left:0; right:100%; bottom:-4px; height:2px; background:var(--red); transition:right .25s var(--ease); }
+  .nav-links a:hover{ color:var(--text); }
+  .nav-links a:hover::after{ right:0; }
+
+  .nav-cta{ display:none; }
+
+  .nav-actions{ display:flex; align-items:center; gap:10px; }
+
+  .nav-burger{
+    width:40px; height:40px; display:flex; align-items:center; justify-content:center;
+    background:transparent; border:1px solid var(--line); border-radius:var(--radius); color:var(--text); cursor:pointer;
+  }
+
+  .mobile-menu{
+    max-height:0; overflow:hidden;
+    transition:max-height .45s var(--ease), border-color .3s ease;
+    border-bottom:1px solid transparent;
+  }
+  .mobile-menu.open{ max-height:360px; border-color:var(--line); }
+  .mobile-menu-inner{ padding:8px 0 20px; display:flex; flex-direction:column; gap:4px; }
+  .mobile-menu a{ padding:12px 4px; font-size:15px; color:var(--text-dim); border-bottom:1px solid var(--line); text-transform:uppercase; letter-spacing:0.3px; }
+  .mobile-menu .btn{ margin-top:12px; }
+
+  @media (min-width:860px){
+    .nav-links{ display:flex; }
+    .nav-cta{ display:inline-flex; }
+    .nav-burger{ display:none; }
+  }
+
+  /* ============ HERO ============ */
+  .hero{
+    padding:64px 0 70px;
+    position:relative; overflow:hidden;
+    background:var(--ink);
+    color:var(--on-dark);
+  }
+  .hero-net{ position:absolute; inset:0; width:100%; height:100%; opacity:0.55; }
+  .hero-net line, .hero-net .node-r{ opacity:0; }
+  .hero-net line{
+    stroke:rgba(244,243,239,0.16); stroke-width:1;
+    stroke-dasharray:1; stroke-dashoffset:1;
+    animation:netDraw 1.4s var(--ease) forwards, netFade .001s;
+  }
+  .hero-net .node{ fill:rgba(244,243,239,0.35); animation:nodeIn .5s var(--ease) forwards, nodePulse 3.4s ease-in-out infinite; }
+  .hero-net .node-r{ fill:var(--red); animation:nodeIn .5s var(--ease) forwards, nodePulseRed 2.6s ease-in-out infinite; }
+  @keyframes netDraw{ from{ stroke-dashoffset:1; opacity:0.9; } to{ stroke-dashoffset:0; opacity:1; } }
+  @keyframes nodeIn{ from{ opacity:0; transform:scale(0.3); } to{ opacity:1; transform:scale(1); } }
+  @keyframes nodePulse{ 0%,100%{ opacity:0.25; } 50%{ opacity:0.7; } }
+  @keyframes nodePulseRed{ 0%,100%{ opacity:0.55; } 50%{ opacity:1; } }
+
+  .hero-sweep{
+    position:absolute; top:0; left:-40%; width:40%; height:100%;
+    background:linear-gradient(100deg, transparent, rgba(217,30,54,0.08), transparent);
+    animation:sweep 7s linear infinite; pointer-events:none;
+  }
+  @keyframes sweep{ 0%{ left:-40%; } 100%{ left:110%; } }
+
+  .hero-inner{ position:relative; z-index:1; display:grid; grid-template-columns:1fr; gap:44px; }
+  @media (min-width:960px){ .hero-inner{ grid-template-columns:1.05fr 0.95fr; align-items:center; gap:36px; } }
+
+  .hero .eyebrow{ color:var(--red); }
+  .hero .eyebrow::before{ background:var(--red); }
+  .hero h1{
+    font-size:clamp(38px, 8vw, 72px); font-weight:800; line-height:0.98; max-width:15ch; margin-top:18px; color:var(--on-dark);
+    letter-spacing:0.3px;
+  }
+  .hero h1 .accent{ color:var(--red); }
+  .decode{ display:inline-block; }
+  .hero-sub{ margin-top:22px; font-size:16.5px; line-height:1.65; color:var(--on-dark-dim); max-width:46ch; }
+  .hero-actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:34px; }
+  .hero .btn-ghost{ border-color:var(--line-on-dark); color:var(--on-dark); }
+  .hero .btn-ghost:hover{ border-color:var(--red); color:var(--red); }
+
+  .hero-visual{ position:relative; perspective:1200px; margin-top:8px; min-height:420px; display:flex; align-items:center; justify-content:center; }
+  .symbol-stage{ position:relative; width:100%; max-width:460px; aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; }
+  .symbol-canvas{ position:absolute; inset:-20%; width:140%; height:140%; pointer-events:none; }
+
+  .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+  .symbol-wrap{
+    position:relative; width:128%; z-index:2;
+    display:flex; align-items:flex-start;
+  }
+  .symbol-wrap.in{ animation:symbolFloat 4.2s ease-in-out 1.55s infinite; }
+  .symbol-half{ width:50%; height:auto; display:block; opacity:0; will-change:transform, opacity; }
+  .symbol-wrap.in .symbol-half-l{ animation:slideInLeft 1s var(--ease-snap) forwards; }
+  .symbol-wrap.in .symbol-half-r{ animation:slideInRight 1s var(--ease-snap) forwards; }
+  @keyframes slideInLeft{
+    0%{ opacity:0; transform:translateX(-150%) translateY(6%) rotate(-14deg); }
+    55%{ opacity:1; }
+    76%{ transform:translateX(4%) translateY(0) rotate(2deg); }
+    100%{ opacity:1; transform:translateX(0) translateY(0) rotate(0deg); }
+  }
+  @keyframes slideInRight{
+    0%{ opacity:0; transform:translateX(150%) translateY(6%) rotate(14deg); }
+    55%{ opacity:1; }
+    76%{ transform:translateX(-4%) translateY(0) rotate(-2deg); }
+    100%{ opacity:1; transform:translateX(0) translateY(0) rotate(0deg); }
+  }
+  @keyframes symbolFloat{ 0%,100%{ transform:translateY(0) scale(1); } 50%{ transform:translateY(-10px) scale(1.015); } }
+
+  .symbol-flash{
+    position:absolute; inset:0; z-index:3; border-radius:8%;
+    background:radial-gradient(circle at 50% 56%, rgba(244,243,239,0.95), rgba(217,30,54,0.4) 38%, transparent 72%);
+    opacity:0; pointer-events:none; mix-blend-mode:screen;
+  }
+  .symbol-wrap.in .symbol-flash{ animation:flashPop .5s ease-out .82s 1 both; }
+  @keyframes flashPop{
+    0%{ opacity:0; transform:scale(0.6); }
+    35%{ opacity:1; transform:scale(1.08); }
+    100%{ opacity:0; transform:scale(1.4); }
+  }
+
+  .symbol-shock{
+    position:absolute; left:50%; top:56%; width:30px; height:30px; margin:-15px 0 0 -15px; z-index:3;
+    border-radius:50%; border:2px solid var(--red); opacity:0; pointer-events:none;
+  }
+  .symbol-wrap.in .symbol-shock{ animation:shockBurst .75s ease-out .82s 1 both; }
+  @keyframes shockBurst{
+    0%{ opacity:0.95; transform:scale(0.3); border-width:3px; }
+    70%{ opacity:0.3; border-width:1.5px; }
+    100%{ opacity:0; transform:scale(8); border-width:1px; }
+  }
+
+  .symbol-ping{
+    position:absolute; left:57%; top:63%; width:14px; height:14px; margin:-7px 0 0 -7px;
+    border-radius:50%; border:2px solid var(--red); opacity:0; pointer-events:none;
+  }
+  .symbol-ping.go{ animation:pingRing 2.6s ease-out 1.35s infinite; }
+  @keyframes pingRing{ 0%{ opacity:0.9; transform:scale(0.4); } 80%{ opacity:0; transform:scale(5.5); } 100%{ opacity:0; transform:scale(5.5); } }
+
+  /* ============ letter-trace loop: reveals which strokes read M, R, V ============ */
+  .symbol-trace{ position:absolute; inset:0; pointer-events:none; z-index:4; }
+  .trace-glow{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:contain;
+    opacity:0;
+    filter:drop-shadow(0 0 10px var(--red)) drop-shadow(0 0 26px var(--red-glow));
+    clip-path:inset(2.9% 50.1% 34.3% 2.3%);
+  }
+  .symbol-wrap.in .trace-glow{ animation:traceReveal 9s ease-in-out 1.7s infinite; }
+  @keyframes traceReveal{
+    0%,6%{    opacity:0; clip-path:inset(2.9% 50.1% 34.3% 2.3%); }
+    16%,33%{  opacity:1; clip-path:inset(2.9% 50.1% 34.3% 2.3%); }
+    36%{      opacity:0; clip-path:inset(2.9% 50.1% 34.3% 2.3%); }
+    36.5%{    opacity:0; clip-path:inset(2.9% 2.4% 42.9% 54.5%); }
+    47%,63%{  opacity:1; clip-path:inset(2.9% 2.4% 42.9% 54.5%); }
+    66%{      opacity:0; clip-path:inset(2.9% 2.4% 42.9% 54.5%); }
+    66.5%{    opacity:0; clip-path:inset(2.9% 2.4% 7.1% 2.3%); }
+    77%,94%{  opacity:1; clip-path:inset(2.9% 2.4% 7.1% 2.3%); }
+    97%,100%{ opacity:0; clip-path:inset(2.9% 2.4% 7.1% 2.3%); }
+  }
+  .trace-label{
+    position:absolute; transform:translate(-50%,-50%) scale(0.8);
+    font-family:var(--mono); font-weight:800; font-size:clamp(26px,5vw,46px);
+    color:var(--paper); letter-spacing:1px; opacity:0;
+    text-shadow:0 0 4px rgba(0,0,0,.6), 0 0 16px var(--red), 0 0 34px var(--red-glow);
+  }
+  .trace-label-m{ left:26%;   top:34%; }
+  .trace-label-r{ left:76%;   top:30%; }
+  .trace-label-v{ left:48.8%; top:88%; }
+  .symbol-wrap.in .trace-label-m{ animation:labelM 9s ease-in-out 1.7s infinite; }
+  .symbol-wrap.in .trace-label-r{ animation:labelR 9s ease-in-out 1.7s infinite; }
+  .symbol-wrap.in .trace-label-v{ animation:labelV 9s ease-in-out 1.7s infinite; }
+  @keyframes labelM{
+    0%,6%{ opacity:0; transform:translate(-50%,-50%) scale(0.75); }
+    16%,33%{ opacity:1; transform:translate(-50%,-50%) scale(1); }
+    36%,100%{ opacity:0; transform:translate(-50%,-50%) scale(0.75); }
+  }
+  @keyframes labelR{
+    0%,36.5%{ opacity:0; transform:translate(-50%,-50%) scale(0.75); }
+    47%,63%{ opacity:1; transform:translate(-50%,-50%) scale(1); }
+    66%,100%{ opacity:0; transform:translate(-50%,-50%) scale(0.75); }
+  }
+  @keyframes labelV{
+    0%,66.5%{ opacity:0; transform:translate(-50%,-50%) scale(0.75); }
+    77%,94%{ opacity:1; transform:translate(-50%,-50%) scale(1); }
+    97%,100%{ opacity:0; transform:translate(-50%,-50%) scale(0.75); }
+  }
+
+  .symbol-badge{
+    position:absolute; bottom:2%; right:2%; z-index:3;
+    background:var(--red); color:#fff; border-radius:var(--radius);
+    padding:8px 13px; font-family:var(--mono); font-size:10px; font-weight:600; letter-spacing:1.5px;
+    box-shadow:0 14px 32px var(--red-glow);
+    display:flex; align-items:center; gap:6px;
+    opacity:0; transform:scale(0.6) translateY(6px);
+  }
+  .symbol-badge.go{ animation:badgeSnap .55s var(--ease-snap) forwards; }
+  @keyframes badgeSnap{ from{ opacity:0; transform:scale(0.6) translateY(6px); } to{ opacity:1; transform:scale(1) translateY(0); } }
+  .symbol-badge svg{ width:12px; height:12px; }
+
+  /* ---- entrance animations ---- */
+  @keyframes headerIn{ from{ transform:translateY(-100%); opacity:0; } to{ transform:translateY(0); opacity:1; } }
+  header{ animation:headerIn .8s var(--ease) both; }
+
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(16px); } to{ opacity:1; transform:translateY(0); } }
+  .hero-copy > *{ animation:fadeUp .8s var(--ease) both; }
+  .hero-copy > *:nth-child(1){ animation-delay:.05s; }
+  .hero-copy > *:nth-child(2){ animation-delay:.15s; }
+  .hero-copy > *:nth-child(3){ animation-delay:.7s; }
+  .hero-copy > *:nth-child(4){ animation-delay:.85s; }
+
+  @keyframes maskReveal{ from{ clip-path:inset(100% 0 0 0); opacity:0; } to{ clip-path:inset(0 0 0 0); opacity:1; } }
+  .hero-visual-in{ animation:maskReveal 1s var(--ease) both; animation-delay:.5s; }
+
+  /* ============ STRIP ============ */
+  .strip{ border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--bg-soft); padding:20px 0; }
+  .strip-row{ display:flex; gap:28px; overflow-x:auto; font-family:var(--mono); font-size:12px; color:var(--text-faint); letter-spacing:0.5px; scrollbar-width:none; }
+  .strip-row::-webkit-scrollbar{ display:none; }
+  .strip-row span{ white-space:nowrap; }
+  .strip-row b{ color:var(--text-dim); font-weight:600; }
+
+  /* ============ SECTIONS ============ */
+  .sec{ padding:var(--pad-section) 0; }
+  .sec-head{ margin-bottom:44px; max-width:58ch; }
+  .sec-head h2{ font-size:clamp(28px,5vw,42px); font-weight:700; margin-top:14px; line-height:1.05; }
+  .sec-head p{ margin-top:16px; color:var(--text-dim); font-size:16px; line-height:1.6; }
+
+  .angle-div{ height:56px; background:var(--bg); position:relative; margin-top:-1px; }
+  .angle-div svg{ width:100%; height:100%; display:block; }
+
+  /* ============ SERVICES ============ */
+  .services-grid{ display:grid; grid-template-columns:1fr; gap:var(--gap); }
+  @media (min-width:700px){ .services-grid{ grid-template-columns:1fr 1fr; } }
+
+  .svc-card{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:var(--pad-card); position:relative; overflow:hidden;
+    clip-path:polygon(0 0, 100% 0, 100% 100%, 26px 100%, 0 calc(100% - 26px));
+    transition:border-color .25s ease, transform .4s var(--ease), box-shadow .4s var(--ease);
+  }
+  .svc-card:hover{ border-color:var(--red); transform:translateY(-5px); box-shadow:0 20px 46px var(--card-hover-shadow); }
+  .svc-tag{ font-family:var(--mono); font-size:12px; font-weight:600; letter-spacing:2px; color:var(--text-faint); text-transform:uppercase; }
+  .svc-icon{ width:40px; height:40px; margin-bottom:18px; transition:filter .25s ease; }
+
+  @keyframes iconPop{ from{ opacity:0; transform:scale(0.6) rotate(-8deg); } to{ opacity:1; transform:scale(1) rotate(0deg); } }
+  .reveal.in .svc-icon{ animation:iconPop .5s var(--ease) .15s both; }
+  .svc-card h3{ font-size:20px; font-weight:700; margin-bottom:10px; margin-top:4px; }
+  .svc-card p{ font-size:15px; line-height:1.6; color:var(--text-dim); }
+  .svc-list{ margin-top:16px; display:flex; flex-direction:column; gap:8px; }
+  .svc-list li{ font-size:13px; color:var(--text-dim); display:flex; gap:8px; align-items:center; font-family:var(--mono); }
+  .svc-list li svg{ width:13px; height:13px; flex-shrink:0; color:var(--red); }
+
+  /* ============ PROCESS ============ */
+  .process{ background:var(--ink); color:var(--on-dark); }
+  .process .eyebrow{ color:var(--red); }
+  .process .eyebrow::before{ background:var(--red); }
+  .process .sec-head h2{ color:var(--on-dark); }
+  .process .sec-head p{ color:var(--on-dark-dim); }
+  .process-track{ position:relative; }
+  .process-line{
+    position:absolute; left:19px; top:8px; bottom:8px; width:2px;
+    background:var(--red);
+    transform:scaleY(var(--p,0)); transform-origin:top;
+    transition:transform 1.1s var(--ease);
+  }
+  @media (min-width:860px){
+    .process-track{ display:grid; grid-template-columns:repeat(4,1fr); gap:var(--gap); }
+    .process-line{ left:0; right:0; top:19px; bottom:auto; height:2px; width:auto; transform:scaleX(var(--p,0)); transform-origin:left; }
+  }
+  .proc-step{ position:relative; padding:0 0 32px 56px; opacity:0; transform:translateY(14px); transition:opacity .6s var(--ease), transform .6s var(--ease); }
+  .proc-step.in{ opacity:1; transform:translateY(0); }
+  @media (min-width:860px){ .proc-step{ padding:44px 0 0 0; } }
+  .proc-num{
+    position:absolute; left:0; top:0; width:40px; height:40px;
+    background:var(--ink-2); border:1px solid var(--red); color:var(--red);
+    font-family:var(--mono); font-size:13px; font-weight:600;
+    display:flex; align-items:center; justify-content:center; z-index:1;
+    clip-path:polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+  .proc-step h3{ font-size:16.5px; font-weight:700; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.3px; color:var(--on-dark); }
+  .proc-step p{ font-size:14px; line-height:1.6; color:var(--on-dark-dim); }
+
+  /* ============ SPEC ============ */
+  .spec{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); overflow:hidden; }
+  @media (min-width:700px){ .spec{ grid-template-columns:repeat(4,1fr); } }
+  .spec-cell{ background:var(--card); padding:var(--pad-card) 20px; }
+  .spec-cell b{ display:flex; align-items:baseline; gap:2px; font-family:var(--display); font-size:32px; color:var(--red); font-weight:700; letter-spacing:0; }
+  .spec-cell span{ display:block; margin-top:6px; font-size:12.5px; color:var(--text-dim); }
+
+  /* ============ CTA ============ */
+  .cta-band{
+    max-width:1160px; margin-inline:auto;
+    background:var(--ink); color:var(--on-dark);
+    border:1px solid var(--line-on-dark); padding:56px 28px; text-align:center;
+    position:relative; overflow:hidden;
+    clip-path:polygon(0 0, 100% 0, 100% 100%, 32px 100%, 0 calc(100% - 32px));
+  }
+  .cta-band::before{ content:''; position:absolute; top:-90px; right:-70px; width:300px; height:300px; background:radial-gradient(circle, var(--red-glow), transparent 70%); border-radius:50%; opacity:0.5; }
+  .cta-band h2{ position:relative; font-size:clamp(26px,5vw,38px); font-weight:800; color:var(--on-dark); }
+  .cta-band p{ position:relative; margin-top:14px; color:var(--on-dark-dim); font-size:15px; line-height:1.6; max-width:52ch; margin-inline:auto; }
+  .cta-band .btn-ghost{ border-color:var(--line-on-dark); color:var(--on-dark); }
+  .cta-band .btn-ghost:hover{ border-color:var(--red); color:var(--red); }
+  .cta-actions{ position:relative; display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:30px; }
+
+  /* ============ FOOTER ============ */
+  footer{ border-top:1px solid var(--line); padding:56px 0 28px; background:var(--bg); }
+  .foot-grid{ display:grid; grid-template-columns:1fr; gap:36px; }
+  @media (min-width:700px){ .foot-grid{ grid-template-columns:1.3fr 1fr 1fr; } }
+  .foot-brand p{ margin-top:16px; font-size:14px; line-height:1.6; color:var(--text-dim); max-width:34ch; }
+  .foot-col h4{ font-family:var(--mono); font-size:12px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--text-faint); margin-bottom:14px; }
+  .foot-col ul{ display:flex; flex-direction:column; gap:10px; }
+  .foot-col a{ font-size:14px; color:var(--text-dim); transition:color .15s ease; }
+  .foot-col a:hover{ color:var(--red); }
+  .foot-bottom{ margin-top:44px; padding-top:22px; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:10px; font-size:12.5px; color:var(--text-faint); }
+  @media (min-width:700px){ .foot-bottom{ flex-direction:row; justify-content:space-between; } }
+
+  /* ============ REVEAL ============ */
+  .reveal{ opacity:0; transform:translateY(18px); filter:blur(3px); transition:opacity .7s var(--ease), transform .7s var(--ease), filter .7s var(--ease); }
+  .reveal.in{ opacity:1; transform:translateY(0); filter:blur(0); }
+  .stagger.in .reveal-child:nth-child(1){ transition-delay:0s; }
+  .stagger.in .reveal-child:nth-child(2){ transition-delay:.08s; }
+  .stagger.in .reveal-child:nth-child(3){ transition-delay:.16s; }
+  .stagger.in .reveal-child:nth-child(4){ transition-delay:.24s; }
+
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--red); outline-offset:3px; }
+</style>
+</head>
+<body>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<header id="siteHeader">
+  <div class="wrap nav">
+    <a href="#top" class="brand">
+      <img src="assets/mr-veqtor-icon.png" width="38" height="30" alt="MR VEQTOR logo" class="brand-mark brand-mark-live">
+      <div>
+        <div class="brand-word">MR VEQTOR</div>
+        <div class="brand-tag">FOUR MINDS, ONE VISION.</div>
+      </div>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#why">Why us</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <a href="#contact" class="btn btn-primary nav-cta">Get a free quote</a>
+    <div class="nav-actions">
+      <button class="nav-burger" id="burgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4H16M2 9H16M2 14H16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="wrap mobile-menu-inner">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#why">Why us</a>
+      <a href="#contact">Contact</a>
+      <a href="#contact" class="btn btn-primary">Get a free quote</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <svg class="hero-net" id="heroNet" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+    <div class="hero-sweep" aria-hidden="true"></div>
+
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <div class="eyebrow">Systems · CCTV · Web · Apps — Tarlac City</div>
+        <h1><span class="decode" id="decodeText">Everything we build,</span><br><span class="accent decode" id="decodeText2">we verify.</span></h1>
+        <p class="hero-sub">MR VEQTOR installs the systems, cameras, and software that keep local businesses running — scoped to how you actually work, checked before we sign off, and supported long after we leave.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">Get a free site visit</a>
+          <a href="#services" class="btn btn-ghost">See what we build</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" id="heroVisual">
+        <div class="symbol-stage" id="symbolStage">
+          <canvas class="symbol-canvas" id="symbolCanvas" aria-hidden="true"></canvas>
+          <div class="symbol-wrap" id="symbolWrap">
+            <img class="symbol-half symbol-half-l" src="assets/mr-veqtor-icon-hero-left.png" alt="" draggable="false">
+            <img class="symbol-half symbol-half-r" src="assets/mr-veqtor-icon-hero-right.png" alt="" draggable="false">
+            <span class="sr-only">MR VEQTOR logo &mdash; the mark encodes M, R and V</span>
+            <span class="symbol-flash" aria-hidden="true"></span>
+            <span class="symbol-shock" aria-hidden="true"></span>
+            <span class="symbol-ping" id="symbolPing" aria-hidden="true"></span>
+            <div class="symbol-trace" aria-hidden="true">
+              <img class="trace-glow" src="assets/mr-veqtor-icon-hero-glow.png" alt="" draggable="false">
+              <span class="trace-label trace-label-m">M</span>
+              <span class="trace-label trace-label-r">R</span>
+              <span class="trace-label trace-label-v">V</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="strip">
+    <div class="wrap strip-row">
+      <span><b>SYSTEMS</b> · POS / inventory / HR</span>
+      <span><b>CCTV</b> · install + NVR + remote view</span>
+      <span><b>WEBSITES</b> · mobile-first, built to load fast</span>
+      <span><b>APPS</b> · booking, tracking, internal tools</span>
+      <span><b>SUPPORT</b> · &lt;24hr response</span>
+    </div>
+  </div>
+
+  <!-- ================= SERVICES ================= -->
+  <section class="sec" id="services">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">What we build</div>
+        <h2>Four things, done properly — not fifty things, done sloppily.</h2>
+        <p>Every engagement starts with how your business actually operates. No off-the-shelf template pretending to be a solution.</p>
+      </div>
+
+      <div class="services-grid stagger" id="servicesGrid">
+
+        <div class="svc-card reveal reveal-child">
+          <div class="svc-tag">MODULE / 01</div>
+          <svg class="svc-icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <rect x="4" y="8" width="32" height="20" rx="1" stroke="var(--red)" stroke-width="2"/>
+            <path d="M12 33h16M20 28v5" stroke="var(--red)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M10 17l6 5 5-7 9 8" stroke="var(--text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3>Business Systems</h3>
+          <p>Custom software for inventory, point-of-sale, HR, and daily operations — built around your workflow, not the other way around.</p>
+          <ul class="svc-list">
+            <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 5L19 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Inventory & stock tracking</li>
+            <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 5L19 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>POS & sales reporting</li>
+            <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 5L19 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Staff scheduling & payroll tools</li>
+          </ul>
+        </div>
+
+        <div class="svc-card reveal reveal-child">
+          <div class="svc-tag">MODULE / 02</div>
+          <svg class="svc-icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <rect x="4" y="14" width="22" height="15" rx="1" stroke="var(--red)" stroke-width="2"/>
+            <path d="M26 18l10-5v16l-10-5z" stroke="var(--red)" stroke-width="2" stroke-linejoin="round"/>
+            <circle cx="15" cy="21.5" r="3.4" stroke="var(--text)" stroke-width="2"/>
+          </svg>
+          <h3>CCTV & Security</h3>
+          <p>Full installation — cameras, NVR configuration, clean cabling, and remote viewing set up on your phone before we leave the site.</p>
+          <ul class="svc-list">
+            <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 5L19 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>On-site survey & camera placement</li>
+            <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 5L19 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>NVR + storage setup</li>
+            <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 5L19 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Remote viewing on mobile</li>
+          </ul>
+        </div>
+
+        <div class="svc-card reveal reveal-child">
+          <div class="svc-tag">MODULE / 03</div>
+          <svg class="svc-icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <rect x="6" y="6" width="28" height="28" rx="1" stroke="var(--red)" stroke-width="2"/>
+            <path d="M6 14h28" stroke="var(--red)" stroke-width="2"/>
+            <circle cx="11" cy="10" r="1.4" fill="var(--text)"/>
+            <circle cx="15.5" cy="10" r="1.4" fill="var(--text)"/>
+            <path d="M12 27l5-8 4 5 4-6" stroke="var(--text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3>Websites</h3>
+          <p>Mobile-first websites that load fast on real Philippine connections and are built to turn visitors into inquiries.</p>
+          <ul class="svc-list">
+            <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 5L19 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Mobile-first, fast-loading builds</li>
+            <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 5L19 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>SEO-ready structure</li>
+            <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 5L19 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Booking & inquiry forms</li>
+          </ul>
+        </div>
+
+        <div class="svc-card reveal reveal-child">
+          <div class="svc-tag">MODULE / 04</div>
+          <svg class="svc-icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <rect x="11" y="4" width="18" height="32" rx="1" stroke="var(--red)" stroke-width="2"/>
+            <line x1="11" y1="30" x2="29" y2="30" stroke="var(--red)" stroke-width="2"/>
+            <path d="M16 15l5 5-5 5" stroke="var(--text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3>Custom Apps</h3>
+          <p>Web and mobile apps for booking, delivery tracking, or internal tools — tailored to the exact steps your team takes.</p>
+          <ul class="svc-list">
+            <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 5L19 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Booking & scheduling apps</li>
+            <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 5L19 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Delivery / order tracking</li>
+            <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 5L19 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Internal team tools</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="angle-div" aria-hidden="true">
+    <svg viewBox="0 0 1200 56" preserveAspectRatio="none"><polygon points="0,56 1200,0 1200,56" fill="var(--ink)"/></svg>
+  </div>
+
+  <!-- ================= PROCESS ================= -->
+  <section class="sec process" id="process" style="padding-top:40px;">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">How an engagement runs</div>
+        <h2>From site visit to verified hand-off, in four stages.</h2>
+      </div>
+
+      <div class="process-track" id="processTrack">
+        <div class="process-line" id="processLine" aria-hidden="true"></div>
+
+        <div class="proc-step">
+          <div class="proc-num">01</div>
+          <h3>Assess</h3>
+          <p>We walk the space or the workflow in person — no quote before we've actually seen what we're solving.</p>
+        </div>
+        <div class="proc-step">
+          <div class="proc-num">02</div>
+          <h3>Plan</h3>
+          <p>A clear scope, timeline, and cost — camera counts, system spec, or site map, whichever applies.</p>
+        </div>
+        <div class="proc-step">
+          <div class="proc-num">03</div>
+          <h3>Build & install</h3>
+          <p>Development or on-site installation, with progress check-ins so nothing arrives as a surprise.</p>
+        </div>
+        <div class="proc-step">
+          <div class="proc-num">04</div>
+          <h3>Verify & hand off</h3>
+          <p>We test every camera, screen, and workflow with your team present, then support the system once it's live.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="angle-div" aria-hidden="true" style="background:var(--ink);">
+    <svg viewBox="0 0 1200 56" preserveAspectRatio="none"><polygon points="0,0 1200,0 1200,56" fill="var(--bg)"/></svg>
+  </div>
+
+  <!-- ================= WHY / SPEC ================= -->
+  <section class="sec" id="why" style="padding-top:40px;">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">Why MR VEQTOR</div>
+        <h2>Local team, verified standard.</h2>
+        <p>We're based in Tarlac City and work across the whole province and nearby areas — close enough for a same-week site visit, thorough enough to document and test everything we install.</p>
+      </div>
+
+      <div class="spec reveal">
+        <div class="spec-cell">
+          <b>&lt;<span class="count" data-target="24">0</span>hr</b>
+          <span>Response time on support requests</span>
+        </div>
+        <div class="spec-cell">
+          <b><span class="count" data-target="99.9" data-decimals="1">0</span>%</b>
+          <span>Uptime target for hosted systems</span>
+        </div>
+        <div class="spec-cell">
+          <b>Tarlac + Nearby</b>
+          <span>Service coverage area</span>
+        </div>
+        <div class="spec-cell">
+          <b>Ongoing</b>
+          <span>Support after hand-off, not just launch</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CTA ================= -->
+  <section class="sec" style="padding-top:0;">
+    <div class="cta-band reveal">
+      <h2>Tell us what's not working yet.</h2>
+      <p>Free site visit for CCTV & systems projects across Tarlac and nearby areas. Websites and apps quoted after a short call.</p>
+      <div class="cta-actions">
+        <a href="mailto:veqtortech@gmail.com" class="btn btn-primary">Email veqtortech@gmail.com</a>
+        <a href="tel:+639169467533" class="btn btn-ghost">Call 0916 946 7533</a>
+        <a href="tel:+639179461014" class="btn btn-ghost">Call 0917 946 1014</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <a href="#top" class="brand">
+        <img src="assets/mr-veqtor-icon.png" width="34" height="27" alt="MR VEQTOR logo" class="brand-mark brand-mark-live">
+        <div>
+          <div class="brand-word">MR VEQTOR</div>
+          <div class="brand-tag">FOUR MINDS, ONE VISION.</div>
+        </div>
+      </a>
+      <p>Direction. Power. Technology. Systems, CCTV, websites, and apps for businesses across Tarlac and nearby areas.</p>
+    </div>
+
+    <div class="foot-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:veqtortech@gmail.com">veqtortech@gmail.com</a></li>
+        <li><a href="tel:+639169467533">0916 946 7533</a></li>
+        <li><a href="tel:+639179461014">0917 946 1014</a></li>
+        <li><a href="#top">Tarlac City, Philippines</a></li>
+      </ul>
+    </div>
+
+    <div class="foot-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#why">Why us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap foot-bottom">
+    <span>© 2026 MR VEQTOR. All rights reserved.</span>
+    <span>Founded by Ricky, Michelle, Marc & Ronie — Tarlac City, PH</span>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ---- mobile menu ---- */
+    var burgerBtn = document.getElementById('burgerBtn');
+    var mobileMenu = document.getElementById('mobileMenu');
+    burgerBtn.addEventListener('click', function(){
+      var isOpen = mobileMenu.classList.toggle('open');
+      burgerBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    mobileMenu.querySelectorAll('a').forEach(function(link){
+      link.addEventListener('click', function(){
+        mobileMenu.classList.remove('open');
+        burgerBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    /* ---- scroll progress + header state ---- */
+    var progressEl = document.getElementById('scrollProgress');
+    var header = document.getElementById('siteHeader');
+    var ticking = false;
+
+    function onScrollFrame(){
+      var scrollTop = window.scrollY || document.documentElement.scrollTop;
+      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      progressEl.style.width = pct + '%';
+      header.classList.toggle('scrolled', scrollTop > 12);
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function(){
+      if (!ticking){
+        requestAnimationFrame(onScrollFrame);
+        ticking = true;
+      }
+    }, { passive: true });
+    onScrollFrame();
+
+    var heroVisual = document.getElementById('heroVisual');
+    var supportsHover = window.matchMedia('(pointer: fine)').matches;
+
+    /* ---- hero network: generate nodes + connecting lines once, animate draw-in ---- */
+    var netSvg = document.getElementById('heroNet');
+    if (netSvg){
+      var W = 1200, H = 700;
+      var pts = [];
+      var cols = 7, rows = 4;
+      for (var r = 0; r < rows; r++){
+        for (var c = 0; c < cols; c++){
+          var jitterX = (Math.random() - 0.5) * 60;
+          var jitterY = (Math.random() - 0.5) * 50;
+          pts.push({
+            x: (c / (cols - 1)) * W + jitterX,
+            y: 60 + (r / (rows - 1)) * (H - 120) + jitterY
+          });
+        }
+      }
+      var frag = document.createDocumentFragment();
+      var lineCount = 0;
+      pts.forEach(function(p, i){
+        pts.forEach(function(q, j){
+          if (j <= i) return;
+          var dx = p.x - q.x, dy = p.y - q.y;
+          var dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 210 && Math.random() < 0.35){
+            var ln = document.createElementNS('http://www.w3.org/2000/svg','line');
+            ln.setAttribute('x1', p.x); ln.setAttribute('y1', p.y);
+            ln.setAttribute('x2', q.x); ln.setAttribute('y2', q.y);
+            ln.style.animationDelay = (Math.random() * 0.9) + 's';
+            frag.appendChild(ln);
+            lineCount++;
+          }
+        });
+      });
+      pts.forEach(function(p, i){
+        var isRed = Math.random() < 0.12;
+        var node = document.createElementNS('http://www.w3.org/2000/svg','circle');
+        node.setAttribute('cx', p.x); node.setAttribute('cy', p.y);
+        node.setAttribute('r', isRed ? 3.4 : 2.4);
+        node.setAttribute('class', isRed ? 'node-r' : 'node');
+        node.style.animationDelay = (0.3 + Math.random() * 1.1) + 's, ' + (1 + Math.random()) + 's';
+        frag.appendChild(node);
+      });
+      netSvg.appendChild(frag);
+      if (reduceMotion){
+        netSvg.querySelectorAll('line, circle').forEach(function(el){ el.style.animation = 'none'; el.style.opacity = el.classList.contains('node-r') ? '0.7' : '0.3'; el.style.strokeDashoffset = '0'; });
+      }
+    }
+
+    /* ---- headline decode-in effect ---- */
+    var CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#/_';
+    function decodeText(el, delay){
+      if (!el) return;
+      var finalText = el.textContent;
+      if (reduceMotion){ return; }
+      var letters = finalText.split('');
+      var revealed = new Array(letters.length).fill(false);
+      var startTime = null;
+      var duration = 650;
+
+      function frame(ts){
+        if (startTime === null) startTime = ts;
+        var elapsed = ts - startTime;
+        var progressCount = Math.min(letters.length, Math.floor((elapsed / duration) * letters.length * 1.5));
+        var out = '';
+        for (var i = 0; i < letters.length; i++){
+          if (letters[i] === ' '){ out += ' '; continue; }
+          if (i < progressCount){ revealed[i] = true; }
+          if (revealed[i]){ out += letters[i]; }
+          else { out += CHARS[Math.floor(Math.random() * CHARS.length)]; }
+        }
+        el.textContent = out;
+        if (progressCount < letters.length){
+          requestAnimationFrame(frame);
+        } else {
+          el.textContent = finalText;
+        }
+      }
+      setTimeout(function(){ requestAnimationFrame(frame); }, delay);
+    }
+    decodeText(document.getElementById('decodeText'), 60);
+    decodeText(document.getElementById('decodeText2'), 550);
+
+    /* ---- hero payoff: two halves converge, then ping pulses ---- */
+    var symbolWrap = document.getElementById('symbolWrap');
+    var symbolPing = document.getElementById('symbolPing');
+    setTimeout(function(){
+      if (symbolWrap) symbolWrap.classList.add('in');
+    }, reduceMotion ? 0 : 500);
+    setTimeout(function(){
+      if (symbolPing && !reduceMotion) symbolPing.classList.add('go');
+    }, 1650);
+
+    /* ---- symbol parallax tilt on pointer devices ---- */
+    var symbolStage = document.getElementById('symbolStage');
+    if (symbolWrap && symbolStage && supportsHover && !reduceMotion){
+      heroVisual.addEventListener('mousemove', function(e){
+        var rect = symbolStage.getBoundingClientRect();
+        var x = (e.clientX - rect.left) / rect.width - 0.5;
+        var y = (e.clientY - rect.top) / rect.height - 0.5;
+        symbolWrap.style.setProperty('--tiltX', (y * -10) + 'deg');
+        symbolWrap.style.setProperty('--tiltY', (x * 12) + 'deg');
+        symbolWrap.style.transform = 'rotateX(var(--tiltX)) rotateY(var(--tiltY))';
+      });
+      heroVisual.addEventListener('mouseleave', function(){
+        symbolWrap.style.transform = '';
+      });
+    }
+
+    /* ---- ambient particle field around the symbol ---- */
+    var symCanvas = document.getElementById('symbolCanvas');
+    if (symCanvas && !reduceMotion){
+      var ctx = symCanvas.getContext('2d');
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var particles = [];
+      var pCount = 34;
+
+      function sizeCanvas(){
+        var rect = symCanvas.getBoundingClientRect();
+        symCanvas.width = rect.width * dpr;
+        symCanvas.height = rect.height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        return rect;
+      }
+      var rect = sizeCanvas();
+
+      for (var i = 0; i < pCount; i++){
+        particles.push({
+          x: Math.random() * rect.width,
+          y: Math.random() * rect.height,
+          r: Math.random() * 1.6 + 0.6,
+          vx: (Math.random() - 0.5) * 0.12,
+          vy: (Math.random() - 0.5) * 0.12,
+          red: Math.random() < 0.15
+        });
+      }
+
+      function tick(){
+        var w = symCanvas.width / dpr, h = symCanvas.height / dpr;
+        ctx.clearRect(0, 0, w, h);
+        particles.forEach(function(p){
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+          if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.red ? 'rgba(217,30,54,0.55)' : 'rgba(244,243,239,0.25)';
+          ctx.fill();
+        });
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+
+      window.addEventListener('resize', function(){
+        sizeCanvas();
+      }, { passive: true });
+    }
+
+    /* ---- generic reveal-on-scroll ---- */
+    var revealEls = document.querySelectorAll('.reveal');
+    var staggerEls = document.querySelectorAll('.stagger');
+
+    if ('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting){
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      revealEls.forEach(function(el){ io.observe(el); });
+      staggerEls.forEach(function(el){ io.observe(el); });
+    } else {
+      revealEls.forEach(function(el){ el.classList.add('in'); });
+      staggerEls.forEach(function(el){ el.classList.add('in'); });
+    }
+
+    /* ---- process line draw-in ---- */
+    var processTrack = document.getElementById('processTrack');
+    var processLine = document.getElementById('processLine');
+    var procSteps = document.querySelectorAll('.proc-step');
+
+    if ('IntersectionObserver' in window && processTrack){
+      var procIo = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting){
+            processLine.style.setProperty('--p', '1');
+            procSteps.forEach(function(step, i){
+              setTimeout(function(){ step.classList.add('in'); }, i * 140);
+            });
+            procIo.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+      procIo.observe(processTrack);
+    } else {
+      processLine.style.setProperty('--p', '1');
+      procSteps.forEach(function(step){ step.classList.add('in'); });
+    }
+
+    /* ---- animated counters ---- */
+    var counters = document.querySelectorAll('.count');
+    function animateCount(el){
+      var target = parseFloat(el.getAttribute('data-target'));
+      var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+      if (reduceMotion || isNaN(target)){
+        el.textContent = target.toFixed(decimals);
+        return;
+      }
+      var duration = 1200;
+      var start = null;
+      function step(ts){
+        if (start === null) start = ts;
+        var progress = Math.min((ts - start) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = (target * eased).toFixed(decimals);
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    if ('IntersectionObserver' in window){
+      var countIo = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting){
+            animateCount(entry.target);
+            countIo.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      counters.forEach(function(el){ countIo.observe(el); });
+    } else {
+      counters.forEach(animateCount);
+    }
+  })();
+</script>
+
+</body>
+</html>
